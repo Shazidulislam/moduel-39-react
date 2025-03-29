@@ -3,6 +3,25 @@ import './App.css'
 import Counter from './3-count'
 import Batsmen from './4-batsman'
 import Ballor from './4-bollar'
+import Users  from './6_users' 
+import { Suspense } from 'react'
+import Friends from './6_friends'
+
+const fetchUsers = fetch("https://jsonplaceholder.typicode.com/users").then(res=>res.json());
+
+const fetchFriends = async()=>{
+  const respon = await fetch(`https://jsonplaceholder.typicode.com/posts`);
+  const catchs = respon.json();
+  return catchs ;
+}
+
+
+
+
+
+
+
+
 
 
 function App() {
@@ -17,11 +36,25 @@ const handleClick5=(num)=>{
   const nweNumber = 10+ num;
   alert(nweNumber);
 }
+const friendsPromises = fetchFriends()
+
 {/* lecture 39-2 end */}
   return (
     <>
       <h1>Vite + React</h1>
-      <Counter></Counter>
+
+      <Suspense fallback={<h3>Loding...</h3>}>
+          <Users fetchUsers={fetchUsers}></Users>
+      </Suspense>
+      
+      <Suspense fallback={<h3>Friends are comimg.....</h3>}>
+        <Friends friendsPromises = {friendsPromises}></Friends>
+      </Suspense>
+       
+
+
+
+      <Counter ></Counter>
       <Batsmen></Batsmen>
       <Ballor></Ballor>
 
